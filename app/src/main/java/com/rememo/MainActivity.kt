@@ -8,8 +8,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.rememo.helpers.AppPreferencesHelper
-import com.rememo.helpers.AuthenticationHelper
+import com.rememo.models.Pippo
+import com.rememo.services.AppPreferencesHelper
+import com.rememo.services.AuthenticationHelper
+import com.rememo.services.api.APIWrapper
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +28,17 @@ class MainActivity : AppCompatActivity() {
         // AuthenticationHelper.logIn("To replace Token")
         var token = AuthenticationHelper.getToken()
         Log.v(TAG, token ?: "No token")
+
+        GlobalScope.launch {
+            APIWrapper.apiGet<Pippo>("ciao",
+                onResult =  { data ->
+                    Log.v("OK", data?.origin ?: "PIPPO")
+                },
+                onError =  { data ->
+                    Log.v("ERROR", data)
+                })
+
+        }
 
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

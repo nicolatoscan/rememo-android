@@ -1,4 +1,4 @@
-package com.rememo.helpers
+package com.rememo.services
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

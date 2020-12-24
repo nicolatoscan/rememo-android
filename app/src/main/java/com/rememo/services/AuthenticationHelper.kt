@@ -1,4 +1,4 @@
-package com.rememo.helpers
+package com.rememo.services
 
 object AuthenticationHelper {
     private var token: String? = null
@@ -13,7 +13,7 @@ object AuthenticationHelper {
 
         var token = AppPreferencesHelper.authToken
         if (token?.isNotEmpty() == true) {
-            this.token = token
+            AuthenticationHelper.token = token
             return token
         }
         return null
@@ -22,12 +22,12 @@ object AuthenticationHelper {
     fun logIn(token: String) {
         if (token.isNotEmpty()) {
             AppPreferencesHelper.authToken = token
-            this.token = token
+            AuthenticationHelper.token = token
         }
     }
 
     fun logOut() {
-        this.token = null
+        token = null
         AppPreferencesHelper.authToken = ""
     }
 }
