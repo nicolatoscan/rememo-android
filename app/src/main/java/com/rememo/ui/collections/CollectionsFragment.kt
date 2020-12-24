@@ -1,4 +1,4 @@
-package com.rememo.ui.notifications
+package com.rememo.ui.collections
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.rememo.R
 
-class NotificationsFragment : Fragment() {
+class CollectionsFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var collectionsViewModel: CollectionsViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-                ViewModelProvider(this).get(NotificationsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        collectionsViewModel =
+                ViewModelProvider(this).get(CollectionsViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_collections, container, false)
+        val textView: TextView = root.findViewById(R.id.text_home)
+        collectionsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

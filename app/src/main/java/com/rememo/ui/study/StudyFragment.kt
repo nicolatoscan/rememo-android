@@ -1,4 +1,4 @@
-package com.rememo.ui.dashboard
+package com.rememo.ui.study
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.rememo.R
 
-class DashboardFragment : Fragment() {
+class StudyFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var studyViewModel: StudyViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-                ViewModelProvider(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        studyViewModel =
+                ViewModelProvider(this).get(StudyViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_study, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        studyViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
