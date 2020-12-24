@@ -8,9 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.rememo.models.Pippo
+import com.rememo.models.Collection
 import com.rememo.services.AppPreferencesHelper
-import com.rememo.services.AuthenticationHelper
 import com.rememo.services.api.APIWrapper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -25,19 +24,14 @@ class MainActivity : AppCompatActivity() {
         AppPreferencesHelper.setup(applicationContext)
 
         // Advanced login
-        // AuthenticationHelper.logIn("To replace Token")
-        var token = AuthenticationHelper.getToken()
-        Log.v(TAG, token ?: "No token")
+        // AuthenticationHelper.logIn("token")
 
         GlobalScope.launch {
-            APIWrapper.apiGet<Pippo>("ciao",
-                onResult =  { data ->
-                    Log.v("OK", data?.origin ?: "PIPPO")
-                },
-                onError =  { data ->
-                    Log.v("ERROR", data)
-                })
-
+            APIWrapper.get<List<Collection>>("/collections", onResult = { data ->
+                Log.v(TAG, data[0].name ?: "NOT FOUND")
+            }, { error ->
+                Log.v(TAG, error)
+            })
         }
 
         setContentView(R.layout.activity_main)
