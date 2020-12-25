@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rememo.models.Collection
 import com.rememo.services.AppPreferencesHelper
+import com.rememo.services.AuthenticationHelper
 import com.rememo.services.api.APIWrapper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,15 +25,7 @@ class MainActivity : AppCompatActivity() {
         AppPreferencesHelper.setup(applicationContext)
 
         // Advanced login
-        // AuthenticationHelper.logIn("token")
-
-        GlobalScope.launch {
-            APIWrapper.get<List<Collection>>("/collections", onResult = { data ->
-                Log.v(TAG, data[0].name ?: "NOT FOUND")
-            }, { error ->
-                Log.v(TAG, error)
-            })
-        }
+        // AuthenticationHelper.logIn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRvc2NhbiIsIl9pZCI6IjVmZDg5ZTkwNDc5YzhmMDAxNzc3YWQ2ZSIsImlhdCI6MTYwODg3OTg3NH0.OvQ9jL7OpA3R746G-VhKBSg1qSN9KG5Z_KTLmiuPkmI")
 
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
