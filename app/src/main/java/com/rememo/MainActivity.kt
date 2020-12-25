@@ -42,6 +42,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        navView.selectedItemId = R.id.navigation_collections
+        navView.selectedItemId = R.id.navigation_profile
     }
 }
