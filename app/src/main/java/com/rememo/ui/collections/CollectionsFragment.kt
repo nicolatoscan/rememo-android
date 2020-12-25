@@ -1,6 +1,7 @@
 package com.rememo.ui.collections
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rememo.R
 import com.rememo.models.Collection
 import com.rememo.services.api.CollectionServices
@@ -32,13 +34,16 @@ class CollectionsFragment : Fragment() {
             // textView.text = it
         // })
 
+        val loadingSpinner = root.findViewById<ProgressBar>(R.id.loading_collections)
+        loadingSpinner.isVisible = true
+
+        val btnCreateCollection = root.findViewById<FloatingActionButton>(R.id.btn_create_collection)
+        btnCreateCollection.setOnClickListener { onCollectionAddClick(it) }
+
         val recyclerView = root.findViewById<RecyclerView>(R.id.collections_list)
         recyclerView.adapter = collectionListAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
-
-        val loadingSpinner = root.findViewById<ProgressBar>(R.id.loading_collections)
-        loadingSpinner.isVisible = true
 
 
         CollectionServices.getCollections(onResult = { collections ->
@@ -50,5 +55,15 @@ class CollectionsFragment : Fragment() {
         })
 
         return root
+    }
+
+    fun onCollectionAddClick(btn: View) {
+        val dialog = CreateCollectionDialogFragment()
+        dialog.show(childFragmentManager, "creatCollectionDialog")
+    }
+
+    fun addCollection(c: Collection) {
+        collectionList += c
+        collectionListAdapter.notifyItemInserted(collectionList.size)
     }
 }

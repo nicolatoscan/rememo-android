@@ -62,6 +62,7 @@ object APIWrapper {
         GlobalScope.launch {
             val (request, response, result) = Fuel.post("$baseUrl$api")
                 .body(Gson().toJson(body))
+                .appendHeader("Content-Type", "application/json")
                 .appendHeader("Authorization", AuthenticationHelper.getToken() ?: "")
                 .awaitStringResponseResult()
             handleResult<T1>(result, response.statusCode, onResult, onError)
@@ -77,6 +78,7 @@ object APIWrapper {
         GlobalScope.launch {
             val (request, response, result) = Fuel.put("$baseUrl$api")
                 .body(Gson().toJson(body))
+                .appendHeader("Content-Type", "application/json")
                 .appendHeader("Authorization", AuthenticationHelper.getToken() ?: "")
                 .awaitStringResponseResult()
             handleResult<T1>(result, response.statusCode, onResult, onError)
