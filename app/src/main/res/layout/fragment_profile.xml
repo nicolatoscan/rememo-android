@@ -23,8 +23,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:textSize="24sp"
         android:text=""
+        android:textColor="?android:attr/colorForeground"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,8 +38,61 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text=""
+        android:textColor="?android:attr/colorForeground"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_display_name" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Created Classes"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="?android:attr/colorForeground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_username" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_created_classes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:clipToPadding="false"
+        android:padding="4dp"
+        tools:listitem="@layout/one_line_list_item"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Joined Classes"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="?android:attr/colorForeground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_created_classes" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_joined_classes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:clipToPadding="false"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:listitem="@layout/joined_class_list_item"
+        android:background="@null"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
