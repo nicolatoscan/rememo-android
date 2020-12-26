@@ -10,6 +10,10 @@ object CollectionServices {
         APIWrapper.get<List<Collection>>("/collections", onResult = onResult, onError = onError)
     }
 
+    fun getCollectionsById(id: String, onResult: (Collection) -> Unit, onError: (String) -> Unit) {
+        APIWrapper.get<Collection>("/collections/$id", onResult = onResult, onError = onError)
+    }
+
     fun createCollection(collection: Collection, onResult: (CreatedId) -> Unit, onError: (String) -> Unit) {
         APIWrapper.post<CreatedId, Collection>("/collections", collection, onResult = onResult, onError = onError)
     }

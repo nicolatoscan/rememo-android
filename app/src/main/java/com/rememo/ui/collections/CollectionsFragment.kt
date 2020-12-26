@@ -19,8 +19,8 @@ class CollectionsFragment : Fragment() {
 
     private lateinit var collectionsViewModel: CollectionsViewModel
 
-    val collectionList = ArrayList<Collection>()
-    val collectionListAdapter = CollectionListItemAdapter(collectionList)
+    private val collectionList = ArrayList<Collection>()
+    private var collectionListAdapter: CollectionListItemAdapter? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,12 +31,13 @@ class CollectionsFragment : Fragment() {
             // textView.text = it
         // })
 
-        val loadingSpinner = root.findViewById<ProgressBar>(R.id.loading_collections)
+        val loadingSpinner = root.findViewById<ProgressBar>(R.id.loading_spinner)
         loadingSpinner.isVisible = true
 
         val btnCreateCollection = root.findViewById<FloatingActionButton>(R.id.btn_create_collection)
         btnCreateCollection.setOnClickListener { onCollectionAddClick(it) }
 
+        collectionListAdapter = CollectionListItemAdapter(collectionList, this.parentFragmentManager)
         val recyclerView = root.findViewById<RecyclerView>(R.id.collections_list)
         recyclerView.adapter = collectionListAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -44,8 +45,9 @@ class CollectionsFragment : Fragment() {
 
 
         CollectionServices.getCollections(onResult = { collections ->
+            collectionList.clear()
             collectionList.addAll(collections)
-            collectionListAdapter.notifyDataSetChanged()
+            collectionListAdapter?.notifyDataSetChanged()
             loadingSpinner.isVisible = false
         }, onError = { error ->
 
@@ -54,13 +56,13 @@ class CollectionsFragment : Fragment() {
         return root
     }
 
-    fun onCollectionAddClick(btn: View) {
+    private fun onCollectionAddClick(btn: View) {
         val dialog = CreateCollectionDialogFragment()
         dialog.show(childFragmentManager, "creatCollectionDialog")
     }
 
     fun addCollection(c: Collection) {
         collectionList += c
-        collectionListAdapter.notifyItemInserted(collectionList.size)
+        collectionListAdapter?.notifyItemInserted(collectionList.size)
     }
 }

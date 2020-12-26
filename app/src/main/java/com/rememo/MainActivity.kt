@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
+    private var originalActionBarTitle = "Rememo"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_study,
@@ -42,6 +41,15 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        navView.selectedItemId = R.id.navigation_profile
+        navView.selectedItemId = R.id.navigation_collections
+    }
+
+    public fun setCustomActionBarTitle(title: String) {
+        if (supportActionBar != null)
+            originalActionBarTitle = supportActionBar?.title.toString()
+        supportActionBar?.title = title
+    }
+    public fun removeCustomActionBarTitle() {
+        supportActionBar?.title = originalActionBarTitle
     }
 }
