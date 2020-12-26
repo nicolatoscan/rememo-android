@@ -29,15 +29,23 @@ class CreateCollectionDialogFragment : DialogFragment() {
                 val name = txtEditName.text.toString()
                 val description = txtEditDescription.text.toString()
 
-                val c = Collection(name = name, description = description)
-                CollectionServices.createCollection(c, onResult = {
-                    (parentFragment as CollectionsFragment).addCollection(c)
-                    dismiss()
-                }, onError = {
-                    Toast.makeText(context, "Error Creating new collection, Please try again later", Toast.LENGTH_LONG).show()
-                    dismiss()
-                })
-                btnCreate.isEnabled = false
+                if (name == null || name.isEmpty() || name.isBlank()) {
+                    Toast.makeText(context, "Insert name", Toast.LENGTH_LONG).show()
+                }
+                else if (description == null || description.isEmpty() || description.isBlank()) {
+                    Toast.makeText(context, "Insert a description", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    val c = Collection(name = name, description = description)
+                    CollectionServices.createCollection(c, onResult = { id ->
+                        (parentFragment as CollectionsFragment).addCollection(Collection(id._id, name, description))
+                        dismiss()
+                    }, onError = {
+                        Toast.makeText(context, "Error Creating new collection, Please try again later", Toast.LENGTH_LONG).show()
+                        dismiss()
+                    })
+                    btnCreate.isEnabled = false
+                }
             }
             btnCancel.setOnClickListener { dismiss() }
 

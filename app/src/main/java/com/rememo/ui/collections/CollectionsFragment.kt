@@ -62,7 +62,7 @@ class CollectionsFragment : Fragment() {
     }
 
     fun addCollection(c: Collection) {
-        collectionList += c
+        collectionList.add(c)
         collectionListAdapter?.notifyItemInserted(collectionList.size)
     }
 }
