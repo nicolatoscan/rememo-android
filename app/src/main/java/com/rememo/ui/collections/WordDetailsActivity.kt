@@ -39,7 +39,7 @@ class WordDetailsActivity : AppCompatActivity() {
             return false
 
         AlertDialog.Builder(this)
-            .setTitle("Are you sure you want to delete this word?")
+            .setTitle("Are you sure you want to delete $wordName?")
             .setPositiveButton("Yes") { _, _ ->
                 loadingSpinner?.isVisible = true
                 CollectionServices.deleteWord(collectionId!!, wordId!!, onResult = {

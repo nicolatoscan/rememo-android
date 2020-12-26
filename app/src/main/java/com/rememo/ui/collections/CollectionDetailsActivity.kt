@@ -79,7 +79,7 @@ class CollectionDetailsActivity : AppCompatActivity() {
             return false
 
         AlertDialog.Builder(this)
-            .setTitle("Are you sure you want to delete this collection?")
+            .setTitle("Are you sure you want to delete $collectionName?")
             .setPositiveButton("Yes") { _, _ ->
                 loadingSpinner?.isVisible = true
                 CollectionServices.deleteCollection(collectionId!!, onResult = {

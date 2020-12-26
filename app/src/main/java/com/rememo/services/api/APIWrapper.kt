@@ -1,11 +1,12 @@
 package com.rememo.services.api
 
-import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.coroutines.awaitStringResponseResult
+import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.rememo.models.EmptyResult
 import com.rememo.services.AuthenticationHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -17,7 +18,7 @@ object APIWrapper {
     final val baseUrl = "https://rememo-api.herokuapp.com/api/v2"
 
     suspend inline fun <reified T> handleResult(
-        result: com.github.kittinunf.result.Result<String, FuelError>,
+        result: Result<String, FuelError>,
         httpCode: Int,
         crossinline onResult: (T) -> Unit,
         crossinline onError: (String) -> Unit
@@ -27,9 +28,16 @@ object APIWrapper {
                 if (httpCode >= 300) {
                     withContext(Dispatchers.Main) { onError("Code $httpCode: $data") }
                 } else {
-                    val itemType = object : TypeToken<T>() {}.type
-                    val res = Gson().fromJson<T>(data, itemType)
-                    withContext(Dispatchers.Main) { onResult(res) }
+                    if (data.length > 0) {
+                        val itemType = object : TypeToken<T>() {}.type
+                        val res = Gson().fromJson<T>(data, itemType)
+                        withContext(Dispatchers.Main) { onResult(res) }
+                    } else {
+                        if (T::class == EmptyResult::class)
+                            withContext(Dispatchers.Main) { onResult(EmptyResult() as T) }
+                        else
+                            withContext(Dispatchers.Main) { onError("No content") }
+                    }
                 }
 
             },
