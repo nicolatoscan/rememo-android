@@ -37,7 +37,7 @@ class CollectionsFragment : Fragment() {
         val btnCreateCollection = root.findViewById<FloatingActionButton>(R.id.btn_create_collection)
         btnCreateCollection.setOnClickListener { onCollectionAddClick(it) }
 
-        collectionListAdapter = CollectionListItemAdapter(collectionList, this.parentFragmentManager)
+        collectionListAdapter = CollectionListItemAdapter(collectionList)
         val recyclerView = root.findViewById<RecyclerView>(R.id.collections_list)
         recyclerView.adapter = collectionListAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)

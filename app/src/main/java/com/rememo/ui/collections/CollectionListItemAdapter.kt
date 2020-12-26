@@ -1,5 +1,8 @@
 package com.rememo.ui.collections
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,29 +15,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rememo.R
 import com.rememo.models.Collection
 
-class CollectionListItemAdapter(private val itemList: List<Collection>, private val fragmentManager: FragmentManager): RecyclerView.Adapter<CollectionListItemAdapter.CollectionListItemViewHolder>() {
+class CollectionListItemAdapter(private val itemList: List<Collection>): RecyclerView.Adapter<CollectionListItemAdapter.CollectionListItemViewHolder>() {
 
-    class CollectionListItemViewHolder(itemView: View, private val fragmentManager: FragmentManager): RecyclerView.ViewHolder(itemView) {
+    class CollectionListItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        var context: Context? = null
         var collection: Collection? = null
         val nameTxt: TextView = itemView.findViewById(R.id.collection_name_txt)
         val descriptionTxt: TextView = itemView.findViewById(R.id.collection_description_txt)
 
         init {
             itemView.setOnClickListener { onClick(it) }
+            context = itemView.context
         }
 
         private fun onClick(v: View) {
-            fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, CollectionDetailsFragment.newInstance(collection?._id ?: "", collection?.name ?: ""))
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit()
+            val intent = Intent(context, CollectionDetailsActivity::class.java).apply {
+                putExtra("AA", collection?._id ?: "")
+                putExtra("BB", collection?.name ?: "")
+            }
+            context?.startActivity(intent)
+            return
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionListItemViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.collection_list_item, parent, false)
-        return CollectionListItemViewHolder(itemView, fragmentManager)
+        return CollectionListItemViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: CollectionListItemViewHolder, position: Int) {

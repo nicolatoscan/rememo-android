@@ -44,12 +44,4 @@ class MainActivity : AppCompatActivity() {
         navView.selectedItemId = R.id.navigation_collections
     }
 
-    public fun setCustomActionBarTitle(title: String) {
-        if (supportActionBar != null)
-            originalActionBarTitle = supportActionBar?.title.toString()
-        supportActionBar?.title = title
-    }
-    public fun removeCustomActionBarTitle() {
-        supportActionBar?.title = originalActionBarTitle
-    }
 }
