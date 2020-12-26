@@ -85,16 +85,28 @@ object APIWrapper {
         }
     }
 
-    inline fun <reified T> delete(
+    inline fun delete(
         api: String,
-        crossinline onResult: (T) -> Unit,
+        crossinline onResult: () -> Unit,
         crossinline onError: (String) -> Unit
     ) {
         GlobalScope.launch {
             val (request, response, result) = Fuel.delete("$baseUrl$api")
                 .appendHeader("Authorization", AuthenticationHelper.getToken() ?: "")
                 .awaitStringResponseResult()
-            handleResult<T>(result, response.statusCode, onResult, onError)
+
+            result.fold(
+                { data ->
+                    if (response.statusCode >= 300) {
+                        withContext(Dispatchers.Main) { onError("Code $response.statusCode: $data") }
+                    } else {
+                        withContext(Dispatchers.Main) { onResult() }
+                    }
+                },
+                { error ->
+                    withContext(Dispatchers.Main) { onError(error.message ?: "Unknown Error") }
+                }
+            )
         }
     }
 }

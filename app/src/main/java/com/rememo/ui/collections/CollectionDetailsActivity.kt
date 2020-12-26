@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,19 +28,21 @@ class CollectionDetailsActivity : AppCompatActivity() {
 
     private var txtEditOriginal: EditText? = null
     private var txtEditTranslation: EditText? = null
+    private var loadingSpinner: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_details)
 
         collectionId = intent.getStringExtra("AA")
-        supportActionBar?.title = intent.getStringExtra("BB")
+        collectionName = intent.getStringExtra("BB")
+        supportActionBar?.title = collectionName
 
         val txtDescription = findViewById<TextView>(R.id.txt_description)
-        val loadingSpinner = findViewById<ProgressBar>(R.id.loading_spinner)
-        loadingSpinner.isVisible = true
+        loadingSpinner = findViewById<ProgressBar>(R.id.loading_spinner)
+        loadingSpinner?.isVisible = true
 
-        wordListAdapter = WordListItemAdapter(wordList, this.supportFragmentManager)
+        wordListAdapter = WordListItemAdapter(wordList, collectionId ?: "")
         wordRecyclerView = findViewById<RecyclerView>(R.id.word_list)
         wordRecyclerView?.adapter = wordListAdapter
         wordRecyclerView?.layoutManager = LinearLayoutManager(this)
@@ -51,10 +56,10 @@ class CollectionDetailsActivity : AppCompatActivity() {
                 wordList.addAll(collection.words)
                 wordListAdapter?.notifyDataSetChanged()
 
-                loadingSpinner.isVisible = false
+                loadingSpinner?.isVisible = false
             }, onError = {
                 txtDescription.text = "Couldn't find this collections, Please try again later"
-                loadingSpinner.isVisible = false
+                loadingSpinner?.isVisible = false
             })
         }
 
@@ -62,6 +67,30 @@ class CollectionDetailsActivity : AppCompatActivity() {
         txtEditTranslation = findViewById<EditText>(R.id.txt_edit_translation)
 
         findViewById<ImageButton>(R.id.btn_insert_word).setOnClickListener { onClickInsertWord() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.collection_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (collectionId == null)
+            return false
+
+        AlertDialog.Builder(this)
+            .setTitle("Are you sure you want to delete this collection?")
+            .setPositiveButton("Yes") { _, _ ->
+                loadingSpinner?.isVisible = true
+                CollectionServices.deleteCollection(collectionId!!, onResult = {
+                    finish()
+                }, onError = {
+                    Toast.makeText(this, "Couldn't delete collection", Toast.LENGTH_LONG).show()
+                })
+            }
+            .setNegativeButton("No") { _, _ -> }
+            .show()
+        return true
     }
 
     private fun onClickInsertWord() {
@@ -80,19 +109,18 @@ class CollectionDetailsActivity : AppCompatActivity() {
             return
         }
 
-        val word = Word(original = original, translation = translation)
-        val insertedIndex = wordList.size
-        wordList.add(word)
-        wordListAdapter?.notifyItemInserted(wordList.size - 1)
-        wordRecyclerView?.scrollToPosition(wordList.size - 1)
-
         txtEditOriginal?.text?.clear()
         txtEditTranslation?.text?.clear()
 
-        CollectionServices.insertWord(collectionId!!, word, onResult = { }, onError = { error ->
+        CollectionServices.insertWord(collectionId!!, Word(original = original, translation = translation), onResult = { id ->
+
+            val word = Word(_id = id._id, original = original, translation = translation)
+            wordList.add(word)
+            wordListAdapter?.notifyItemInserted(wordList.size - 1)
+            wordRecyclerView?.scrollToPosition(wordList.size - 1)
+
+        }, onError = { error ->
             Toast.makeText(this, "Couldn't insert  word", Toast.LENGTH_LONG).show()
-            wordList.removeAt(insertedIndex)
-            wordListAdapter?.notifyItemRemoved(insertedIndex)
         })
 
     }
