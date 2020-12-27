@@ -1,17 +1,20 @@
 package com.rememo.ui.profile
 
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rememo.R
 import com.rememo.models.StudyClass
+import com.rememo.models.StudyClassMin
 import com.rememo.services.api.ClassServices
 import com.rememo.services.api.UsersServices
 
@@ -73,8 +76,42 @@ class ProfileFragment : Fragment() {
         } , onError = {
             loadingClasses = false
             if (!loadingUsers)
-                loadingSpinner.isVisible = false        })
+                loadingSpinner.isVisible = false
+        })
 
+        root.findViewById<Button>(R.id.btn_create_new_class)?.setOnClickListener {
+            onClickCreateNewClass()
+        }
         return root
+    }
+
+    private fun onClickCreateNewClass() {
+        val input = EditText(context)
+        input.inputType = InputType.TYPE_CLASS_TEXT
+
+        val alert = AlertDialog.Builder(requireContext())
+            .setTitle("Insert your class name")
+            .setView(input)
+            .setPositiveButton("CREATE", null)
+            .setNegativeButton("CANCEL") { _, _ -> }
+            .create()
+        alert.setOnShowListener {
+            alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val className = input.text.toString()
+                if (className == null || className.isEmpty() || className.isBlank()) {
+                    Toast.makeText(context, "Class name cannot be blank", Toast.LENGTH_LONG).show()
+                } else {
+                    ClassServices.createClass(StudyClassMin(className), onResult = { id ->
+                        createdClassList.add(StudyClass(id._id, className))
+                        createdClassListAdapter?.notifyDataSetChanged()
+                    }, onError = {
+                        Toast.makeText(context, "Couldn't create a class", Toast.LENGTH_LONG).show()
+                    })
+                    Log.e(className, className)
+                    alert.dismiss()
+                }
+            }
+        }
+        alert.show()
     }
 }

@@ -79,7 +79,7 @@
         android:textColor="?android:attr/colorForeground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_created_classes" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_create_new_class" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_joined_classes"
@@ -94,5 +94,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:listitem="@layout/joined_class_list_item"
         android:background="@null"/>
+
+    <Button
+        android:id="@+id/btn_create_new_class"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="0dip"
+        android:text="+ Create a new class"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/list_created_classes"
+        app:layout_constraintTop_toBottomOf="@+id/list_created_classes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

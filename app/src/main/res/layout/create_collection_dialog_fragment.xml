@@ -50,6 +50,7 @@
 
     <Button
         android:id="@+id/btn_create"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -59,10 +60,9 @@
 
     <Button
         android:id="@+id/btn_cancel"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:text="Cancel"
         app:layout_constraintEnd_toStartOf="@+id/btn_create"
         app:layout_constraintTop_toTopOf="@+id/btn_create" />
