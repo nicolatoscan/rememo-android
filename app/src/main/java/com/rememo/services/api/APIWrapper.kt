@@ -1,5 +1,6 @@
 package com.rememo.services.api
 
+import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.coroutines.awaitStringResponseResult
@@ -53,7 +54,6 @@ object APIWrapper {
         crossinline onError: (String) -> Unit
     ) {
         GlobalScope.launch {
-            val token = AuthenticationHelper.getToken()
             val (request, response, result) = Fuel.get("$baseUrl$api")
                 .appendHeader("Authorization", AuthenticationHelper.getToken() ?: "")
                 .awaitStringResponseResult()

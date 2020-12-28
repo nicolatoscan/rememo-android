@@ -12,7 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Rememo"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.collections.WordDetailsActivity"></activity>
+        <activity android:name=".ui.collections.ImportActivity">
+            <intent-filter android:label="import collection from url">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="https"
+                    android:host="rememo.nicolatoscan.dev"
+                    android:pathPrefix="/import" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.collections.WordDetailsActivity" />
         <activity android:name=".ui.collections.CollectionDetailsActivity" />
         <activity
             android:name=".MainActivity"

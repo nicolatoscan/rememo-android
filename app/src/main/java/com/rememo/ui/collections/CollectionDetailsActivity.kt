@@ -1,6 +1,7 @@
 package com.rememo.ui.collections
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rememo.MainActivity
 import com.rememo.R
+import com.rememo.models.Collection
 import com.rememo.models.Word
 import com.rememo.services.api.CollectionServices
 
@@ -51,7 +53,6 @@ class CollectionDetailsActivity : AppCompatActivity() {
         if (collectionId != null) {
             CollectionServices.getCollectionsById(collectionId!!, onResult = { collection ->
                 txtDescription.text = collection.description
-
                 wordList.clear()
                 wordList.addAll(collection.words)
                 wordListAdapter?.notifyDataSetChanged()
@@ -78,6 +79,36 @@ class CollectionDetailsActivity : AppCompatActivity() {
         if (collectionId == null)
             return false
 
+        when (item.itemId) {
+            R.id.menu_item_share -> {
+                shareCollection()
+                return true
+            }
+            R.id.menu_item_delete -> {
+                deleteCollection()
+                return true
+            }
+        }
+
+        return true
+    }
+
+    private fun shareCollection() {
+        CollectionServices.shareCollection(collectionId!!, onResult = { url ->
+           val sendIntent = Intent().apply {
+               action = Intent.ACTION_SEND
+               putExtra(Intent.EXTRA_TEXT, "https://rememo.nicolatoscan.dev/#/import/${collectionId}")
+               type = "text/plain"
+           }
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+
+        }, onError = {
+            Toast.makeText(this, "Couldn't share this collection", Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun deleteCollection() {
         AlertDialog.Builder(this)
             .setTitle("Are you sure you want to delete $collectionName?")
             .setPositiveButton("Yes") { _, _ ->
@@ -90,7 +121,6 @@ class CollectionDetailsActivity : AppCompatActivity() {
             }
             .setNegativeButton("No") { _, _ -> }
             .show()
-        return true
     }
 
     private fun onClickInsertWord() {

@@ -1,9 +1,8 @@
 package com.rememo.services.api
 
 import android.util.Log
+import com.rememo.models.*
 import com.rememo.models.Collection
-import com.rememo.models.CreatedId
-import com.rememo.models.Word
 
 object CollectionServices {
 
@@ -21,6 +20,14 @@ object CollectionServices {
 
     fun createCollection(collection: Collection, onResult: (CreatedId) -> Unit, onError: (String) -> Unit) {
         APIWrapper.post<CreatedId, Collection>("/collections", collection, onResult = onResult, onError = onError)
+    }
+
+    fun shareCollection(collectionId: String, onResult: (UrlData) -> Unit, onError: (String) -> Unit) {
+        APIWrapper.get<UrlData>("/share/$collectionId", onResult = onResult, onError = onError)
+    }
+
+    fun importCollection(collectionId: String, onResult: (EmptyResult) -> Unit, onError: (String) -> Unit) {
+        APIWrapper.get<EmptyResult>("/share/import/$collectionId", onResult = onResult, onError = onError)
     }
 
     fun insertWord(collectionId: String, word: Word, onResult: (CreatedId) -> Unit, onError: (String) -> Unit) {
