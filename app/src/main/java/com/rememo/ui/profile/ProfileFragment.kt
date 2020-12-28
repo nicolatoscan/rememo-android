@@ -107,7 +107,6 @@ class ProfileFragment : Fragment() {
                     }, onError = {
                         Toast.makeText(context, "Couldn't create a class", Toast.LENGTH_LONG).show()
                     })
-                    Log.e(className, className)
                     alert.dismiss()
                 }
             }

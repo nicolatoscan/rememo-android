@@ -41,7 +41,11 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        navView.selectedItemId = R.id.navigation_collections
+
+        var selectedPage = intent.getIntExtra("Selected page", -1)
+        if (selectedPage == -1)
+            selectedPage = R.id.navigation_collections
+        navView.selectedItemId = selectedPage
     }
 
 }

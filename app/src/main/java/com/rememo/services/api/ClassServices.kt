@@ -10,8 +10,16 @@ object ClassServices {
         APIWrapper.get<List<StudyClass>>("/class", onResult = onResult, onError = onError)
     }
 
+    fun getClassId(classId: String, onResult: (StudyClass) -> Unit, onError: (String) -> Unit) {
+        APIWrapper.get<StudyClass>("/class/$classId", onResult = onResult, onError = onError)
+    }
+
     fun createClass(studyClass: StudyClassMin, onResult: (CreatedId) -> Unit, onError: (String) -> Unit) {
         APIWrapper.post<CreatedId, StudyClassMin>("/class", studyClass, onResult = onResult, onError = onError)
+    }
+
+    fun joinClass(classId: String, onResult: (EmptyResult) -> Unit, onError: (String) -> Unit) {
+        APIWrapper.put<EmptyResult, EmptyResult>("/class/$classId/join", EmptyResult(), onResult = onResult, onError = onError)
     }
 
     fun leaveClass(classId: String, onResult: (EmptyResult) -> Unit, onError: (String) -> Unit) {

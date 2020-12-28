@@ -94,8 +94,9 @@ class ImportActivity : AppCompatActivity() {
         CollectionServices.importCollection(collectionId!!, onResult = {
             Toast.makeText(this, "Collection imported!", Toast.LENGTH_LONG).show()
 
-            val parentIntent = Intent(this, MainActivity::class.java)
-            startActivity(parentIntent)
+            startActivity(Intent(this, MainActivity::class.java).apply {
+                putExtra("Selected page", R.id.navigation_collections)
+            })
             finish()
 
         }, onError = {
