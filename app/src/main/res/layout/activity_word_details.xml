@@ -6,4 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".ui.collections.WordDetailsActivity">
 
+    <TextView
+        android:id="@+id/original_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="56dp"
+        android:text="original"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/translation_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:text="translation"
+        app:layout_constraintStart_toEndOf="@+id/original_tv"
+        app:layout_constraintTop_toTopOf="@+id/original_tv" />
+
+    <TextView
+        android:id="@+id/definition_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Definizione"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/original_tv"
+        app:layout_constraintTop_toBottomOf="@+id/original_tv" />
+
+    <TextView
+        android:id="@+id/definition_tv"
+        android:layout_width="286dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="questa parola significa questa cosa magari tiramo giu con qualche api la definiizione da qualche part "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/definition_title_tv"
+        app:layout_constraintTop_toBottomOf="@+id/definition_title_tv" />
+
+    <TextView
+        android:id="@+id/prununcia_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="pronuncia
+"
+        app:layout_constraintStart_toStartOf="@+id/definition_title_tv"
+        app:layout_constraintTop_toBottomOf="@+id/definition_title_tv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

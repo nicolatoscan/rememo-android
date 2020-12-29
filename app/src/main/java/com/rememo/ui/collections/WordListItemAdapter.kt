@@ -32,6 +32,7 @@ class WordListItemAdapter(
                 putExtra("00", collectionId)
                 putExtra("AA", word?._id ?: "")
                 putExtra("BB", word?.original ?: "")
+                putExtra("CC", word?.translation ?: "")
             }
             context?.startActivity(intent)
             return

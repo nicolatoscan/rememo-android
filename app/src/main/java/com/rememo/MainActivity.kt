@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         AppPreferencesHelper.setup(applicationContext)
 
         // Advanced login
-        AuthenticationHelper.logIn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRvc2NhbiIsIl9pZCI6IjVmZDg5ZTkwNDc5YzhmMDAxNzc3YWQ2ZSIsImlhdCI6MTYwODg3OTg3NH0.OvQ9jL7OpA3R746G-VhKBSg1qSN9KG5Z_KTLmiuPkmI")
+        AuthenticationHelper.logIn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJvaWRlIiwiX2lkIjoiNWZlYTU5YzdlMWZhMDYwMDQ5YmY0NjNmIiwiaWF0IjoxNjA5MTkzOTI3fQ.SkzIqoZUC8ExdKv6L-UsPwKdEhxGy5v8DKxeqE258i8")
 
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ class WordDetailsActivity : AppCompatActivity() {
     private var collectionId: String? = null
     private var wordId: String? = null
     private var wordName: String? = null
+    private var wordTraslation: String? = null
 
     private var loadingSpinner: ProgressBar? = null
 
@@ -25,7 +27,17 @@ class WordDetailsActivity : AppCompatActivity() {
         collectionId = intent.getStringExtra("00")
         wordId = intent.getStringExtra("AA")
         wordName = intent.getStringExtra("BB")
+        wordTraslation = intent.getStringExtra("CC")
         supportActionBar?.title = wordName
+
+        val tv_original = findViewById<TextView>(R.id.original_tv)
+        val tv_translation = findViewById<TextView>(R.id.translation_tv)
+        val tv_definition = findViewById<TextView>(R.id.definition_tv)
+        val tv_pronuncia = findViewById<TextView>(R.id.prununcia_tv)
+
+        tv_original.setText(wordName)
+        tv_translation.setText(wordTraslation)
+
 
     }
 
